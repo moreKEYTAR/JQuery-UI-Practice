@@ -1,0 +1,94 @@
+
+<!doctype html>
+<html>
+<head>
+  <title>JQuery UI Practice</title>
+  <style type="text/css">
+    .square {
+      display:inline-block;
+      width:200px; height:200px; padding:10px; margin:10px;
+      border-radius:10px;
+      text-align: center;
+      vertical-align: middle;
+      justify-content: center;
+      align-items: center;
+    }
+    h2 {
+      font-family: "Verdana", sans-serif;
+      font-weight: lighter;
+      color: white;
+    }
+    h1 {
+      font-family: "Verdana", sans-serif;
+      font-weight: lighter;
+      color: darkgray;
+      font-size: 60px;
+    }
+    .dock {
+      padding-top: 30%;
+      font-family: "Verdana", sans-serif;
+      font-weight: lighter;
+      color: darkgray;
+      font-size:30px;
+      text-align: center;
+      vertical-align: middle;
+      justify-content: center;
+      align-items: center;
+
+    }
+  </style>
+</head>
+<body>
+
+<h1> JQuery UI Practice: <br>Which is the best color?</h1>
+
+<div class="square" id="periwinkle" style=background-color:#99b3ff;>
+    <h2>Drag me!</h2></div>
+
+<div class="square" id="aqua" style=background-color:#5cd6d6>
+    <h2>No, drag meeeee!</h2></div>
+
+<div class="square" id="pink" style=background-color:#f44274>
+    <h2>I am super fun!</h2></div>
+
+<div class="square" id="midnight" style=background-color:#00001a>
+    <h2>I am dark like your innermost thoughts.</h2></div>
+
+<div class="dock" id="yellow-dock" style="background-color:yellow;
+                         width:940px;height:300px;
+                         padding:10px;margin:10px"><i>Vote by dragging here!</i</div>
+
+<!-- STEP 1: Get jquery CDN in your file (or install jquery) -->
+<script 
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+<!-- STEP 2: Get jquery UI CDN in your file (or install jquery) -->
+<script 
+src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+</script>
+
+
+<script type="text/javascript">
+
+  $(".square").draggable();
+  $(".dock").droppable({
+    drop: function(event, ui) {
+      
+      let draggedID = ui.draggable.attr("id");
+      let droppableID = $(this).attr("id");
+      $(this).css("background-color", "lightgreen");
+
+      let payload = {"colorPick": draggedID};
+
+      $.post("/record-color", payload, function (results) {
+        alert(`Vote recorded for ${results}!`);
+      });
+
+    }
+  });
+
+
+</script>
+
+</body>
+</html>
